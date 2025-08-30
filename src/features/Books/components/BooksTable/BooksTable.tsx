@@ -19,7 +19,7 @@ const BooksTable: React.FC<BooksTableProps> = ({
   onBorrow,
 }) => {
   return (
-    <Container>
+    <Container className="py-5">
       <div className="w-full overflow-x-auto">
         <Table>
           <TableCaption>
