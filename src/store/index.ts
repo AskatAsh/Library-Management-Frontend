@@ -1,3 +1,4 @@
+import { booksApi } from "@/features/Books/api/apiSlice";
 import { configureStore } from "@reduxjs/toolkit";
 import { loadState, saveState } from "./utils/localStorage";
 import type { RootReducer } from "./utils/rootReducer";
@@ -8,8 +9,8 @@ const persistedState = loadState<Partial<RootReducer>>();
 
 export const store = configureStore({
     reducer: rootReducer,
-    preloadedState: persistedState
-    // middleware: (getDefault) => getDefault().concat()
+    preloadedState: persistedState,
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(booksApi.middleware)
 })
 
 // Subscribe to store changes and persist them
