@@ -1,7 +1,13 @@
 import { useGetAllBooksQuery } from "../../api/apiSlice";
+import BooksTable from "./BooksTable";
 
 const AllBooksTable = () => {
   const { data, error, isLoading } = useGetAllBooksQuery("booksApi");
+
+  const onEdit = () => {};
+  const onDelete = () => {};
+  const onBorrow = () => {};
+
   console.log(data);
   if (isLoading) {
     return (
@@ -17,7 +23,17 @@ const AllBooksTable = () => {
       </div>
     );
   }
-  return <div>AllBooksTable</div>;
+
+  return (
+    <div>
+      <BooksTable
+        booksData={data.data}
+        onBorrow={onBorrow}
+        onDelete={onDelete}
+        onEdit={onEdit}
+      />
+    </div>
+  );
 };
 
 export default AllBooksTable;

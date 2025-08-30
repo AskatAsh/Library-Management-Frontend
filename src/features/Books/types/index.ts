@@ -1,4 +1,4 @@
-export interface Book {
+export interface IBook {
     title: string;
     author: string;
     genre: string;
@@ -8,4 +8,11 @@ export interface Book {
     available: boolean;
     createdAt: string;
     updatedAt: string;
+}
+
+export type BooksTableProps = {
+    booksData: IBook[]
+    onEdit?: (book: IBook) => void
+    onDelete?: (isbn: string) => void
+    onBorrow?: (isbn: string) => void
 }
