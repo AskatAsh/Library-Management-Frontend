@@ -5,11 +5,7 @@ import { useGetAllBooksQuery } from "../../api/apiSlice";
 import BooksTable from "./BooksTable";
 
 const AllBooksTable = () => {
-  const { data, error, isLoading } = useGetAllBooksQuery("booksApi");
-
-  const onEdit = () => {};
-  const onDelete = () => {};
-  const onBorrow = () => {};
+  const { data, error, isLoading } = useGetAllBooksQuery(undefined);
 
   console.log(data);
   if (isLoading) {
@@ -30,17 +26,14 @@ const AllBooksTable = () => {
   return (
     <Container className="py-5">
       <div className="flex items-center justify-between my-5">
-        <h2 className="text-2xl font-medium">All Books Data</h2>
+        <h2 className="text-2xl font-medium">
+          All Books Data ({data.data.length})
+        </h2>
         <Link to="/add-new-book">
           <Button>Add New Book</Button>
         </Link>
       </div>
-      <BooksTable
-        booksData={data.data}
-        onBorrow={onBorrow}
-        onDelete={onDelete}
-        onEdit={onEdit}
-      />
+      <BooksTable booksData={data.data} />
     </Container>
   );
 };

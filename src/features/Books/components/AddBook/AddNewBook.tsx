@@ -44,14 +44,14 @@ const AddNewBook: React.FC<AddNewBookProps> = () => {
   const handleSubmit = async (bookData: IAddBook) => {
     const newBookData = {
       ...bookData,
-      copies: Number(bookData.copies),
-      available: bookData.available ?? true,
+      // copies: Number(bookData.copies),
+      // available: bookData.available ?? true,
     };
     const res = await addNewBook(newBookData).unwrap();
 
     console.log("Inside submit funcion: ", res);
     if (res.success) window.alert(res.message);
-    if (isError) console.log("Error:", data);
+    if (isError || !res.sucess) console.log("Error:", res.message);
     form.reset();
   };
 

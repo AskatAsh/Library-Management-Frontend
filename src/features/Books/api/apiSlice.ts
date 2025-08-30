@@ -6,7 +6,8 @@ export const booksApi = createApi({
     tagTypes: ['books'],
     endpoints: (build) => ({
         getAllBooks: build.query({
-            query: () => '/books'
+            query: () => '/books',
+            providesTags: ['books']
         }),
         addNewBook: build.mutation({
             query: (bookData) => ({
@@ -15,8 +16,15 @@ export const booksApi = createApi({
                 body: bookData
             }),
             invalidatesTags: ['books']
+        }),
+        deleteBook: build.mutation({
+            query: (bookId) => ({
+                url: `/books/${bookId}`,
+                method: 'DELETE',
+            }),
+            invalidatesTags: ['books']
         })
     })
 })
 
-export const { useGetAllBooksQuery, useAddNewBookMutation } = booksApi;
+export const { useGetAllBooksQuery, useAddNewBookMutation, useDeleteBookMutation } = booksApi;

@@ -9,14 +9,37 @@ import {
   TableRow,
 } from "@/components/ui";
 import type React from "react";
+import { useState } from "react";
+import { useDeleteBookMutation } from "../../api/apiSlice";
 import type { BooksTableProps } from "../../types";
+import AlertDialogModal from "../AlertDialog/AlertDialogModal";
 
-const BooksTable: React.FC<BooksTableProps> = ({
-  booksData,
-  onEdit,
-  onDelete,
-  onBorrow,
-}) => {
+const BooksTable: React.FC<BooksTableProps> = ({ booksData }) => {
+  const [openDialog, setOpenDialog] = useState(false);
+  const [bookIdToDelete, setBookIdToDelete] = useState<string | null>(null);
+
+  const [
+    deleteBook,
+    { data: deleteData, isLoading: isLoadingDelete, isError },
+  ] = useDeleteBookMutation();
+  console.log("delete book: ", deleteData);
+
+  const onDelete = (bookId: string) => {
+    setBookIdToDelete(bookId);
+    setOpenDialog(true); // open dialog
+  };
+
+  const handleConfirmDelete = async () => {
+    if (bookIdToDelete) {
+      const res = await deleteBook(bookIdToDelete);
+      console.log("Inside delete book function: ", res);
+    }
+  };
+
+  const onEdit = (bookId) => {};
+
+  const onBorrow = (bookId) => {};
+
   return (
     <div className="w-full overflow-x-auto">
       <Table>
@@ -67,7 +90,7 @@ const BooksTable: React.FC<BooksTableProps> = ({
                   <Button
                     variant="destructive"
                     size="sm"
-                    onClick={() => onDelete?.(book.isbn)}
+                    onClick={() => onDelete?.(book._id)}
                   >
                     Delete
                   </Button>
@@ -94,6 +117,15 @@ const BooksTable: React.FC<BooksTableProps> = ({
           )}
         </TableBody>
       </Table>
+
+      {/* dialog modal */}
+      <AlertDialogModal
+        open={openDialog}
+        setOpen={setOpenDialog}
+        onConfirm={handleConfirmDelete}
+        title="Delete Item"
+        description="Are you sure you want to delete this item? This cannot be undone."
+      />
     </div>
   );
 };

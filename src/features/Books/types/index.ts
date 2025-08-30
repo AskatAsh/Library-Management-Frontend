@@ -20,9 +20,10 @@ export interface IAddBook {
     available?: boolean;
 }
 
+export interface IBookwithId extends IBook {
+    _id: string
+}
+
 export type BooksTableProps = {
-    booksData: IBook[]
-    onEdit?: (book: IBook) => void
-    onDelete?: (isbn: string) => void
-    onBorrow?: (isbn: string) => void
+    booksData: IBookwithId[]
 }
