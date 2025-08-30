@@ -1,7 +1,9 @@
+import Books from "@/features/Books";
+
 const Home = () => {
   return (
     <div>
-      <h1 className="text-center my-10">Home page</h1>
+      <Books />
     </div>
   );
 };

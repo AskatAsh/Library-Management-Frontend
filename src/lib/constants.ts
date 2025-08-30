@@ -7,9 +7,9 @@ export const navlinks: TNavlinks[] = [
         link: "/"
     },
     {
-        id: "link-1",
-        label: "Link-1",
-        link: "/"
+        id: "all-books",
+        label: "All Books",
+        link: "/all-books"
     },
     {
         id: "link-2",
