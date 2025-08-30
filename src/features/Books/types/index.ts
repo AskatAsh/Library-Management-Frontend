@@ -10,6 +10,16 @@ export interface IBook {
     updatedAt: string;
 }
 
+export interface IAddBook {
+    title: string;
+    author: string;
+    genre: string;
+    isbn: string;
+    description: string;
+    copies: number;
+    available?: boolean;
+}
+
 export type BooksTableProps = {
     booksData: IBook[]
     onEdit?: (book: IBook) => void
