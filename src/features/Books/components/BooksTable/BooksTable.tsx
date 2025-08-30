@@ -25,6 +25,7 @@ const BooksTable: React.FC<BooksTableProps> = ({
         </TableCaption>
         <TableHeader>
           <TableRow>
+            <TableHead>Serial</TableHead>
             <TableHead>Title</TableHead>
             <TableHead>Author</TableHead>
             <TableHead>Genre</TableHead>
@@ -36,8 +37,9 @@ const BooksTable: React.FC<BooksTableProps> = ({
         </TableHeader>
         <TableBody>
           {booksData.length > 0 ? (
-            booksData.map((book) => (
+            booksData.map((book, idx) => (
               <TableRow key={book.isbn}>
+                <TableCell>{idx + 1}</TableCell>
                 <TableCell className="font-medium">{book.title}</TableCell>
                 <TableCell>{book.author}</TableCell>
                 <TableCell>{book.genre}</TableCell>

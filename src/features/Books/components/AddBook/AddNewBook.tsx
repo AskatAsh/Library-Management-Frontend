@@ -9,36 +9,49 @@ import {
   FormLabel,
   FormMessage,
   Input,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
   Textarea,
 } from "@/components/ui";
 import React from "react";
 import { useForm } from "react-hook-form";
+import { useAddNewBookMutation } from "../../api/apiSlice";
 import type { IAddBook } from "../../types";
 
 type AddNewBookProps = {
   onSubmit: (data: IAddBook) => void;
 };
 
-const AddNewBook: React.FC<AddNewBookProps> = ({ onSubmit }) => {
+const AddNewBook: React.FC<AddNewBookProps> = () => {
   const form = useForm<IAddBook>({
     defaultValues: {
       title: "",
       author: "",
-      genre: "",
+      genre: "FICTION",
       isbn: "",
       description: "",
       copies: 1,
       available: true, // default true
     },
   });
+  const [addNewBook, { data, isLoading, isError }] = useAddNewBookMutation();
 
-  const handleSubmit = (data: IAddBook) => {
-    // onSubmit({
-    //   ...data,
-    //   copies: Number(data.copies), // ensure number
-    //   available: data.available ?? true,
-    // });
-    console.log(data);
+  console.log("Data: ", data);
+
+  const handleSubmit = async (bookData: IAddBook) => {
+    const newBookData = {
+      ...bookData,
+      copies: Number(bookData.copies),
+      available: bookData.available ?? true,
+    };
+    const res = await addNewBook(newBookData).unwrap();
+
+    console.log("Inside submit funcion: ", res);
+    if (res.success) window.alert(res.message);
+    if (isError) console.log("Error:", data);
     form.reset();
   };
 
@@ -87,7 +100,19 @@ const AddNewBook: React.FC<AddNewBookProps> = ({ onSubmit }) => {
                 <FormItem>
                   <FormLabel>Genre</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter genre" {...field} />
+                    <Select onValueChange={field.onChange} value={field.value}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select genre" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="FICTION">Fiction</SelectItem>
+                        <SelectItem value="NON_FICTION">Non-fiction</SelectItem>
+                        <SelectItem value="SCIENCE">Science</SelectItem>
+                        <SelectItem value="HISTORY">History</SelectItem>
+                        <SelectItem value="BIOGRAPHY">Biography</SelectItem>
+                        <SelectItem value="FANTASY">Fantasy</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -168,7 +193,7 @@ const AddNewBook: React.FC<AddNewBookProps> = ({ onSubmit }) => {
           </div>
 
           <Button type="submit" className="w-full md:w-auto">
-            Add Book
+            {isLoading ? "Adding Book..." : "Add Book"}
           </Button>
         </form>
       </Form>

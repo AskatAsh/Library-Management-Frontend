@@ -1,7 +1,7 @@
 export interface IBook {
     title: string;
     author: string;
-    genre: string;
+    genre: 'FICTION' | 'NON_FICTION' | 'SCIENCE' | 'HISTORY' | 'BIOGRAPHY' | 'FANTASY';
     isbn: string;
     description: string;
     copies: number;
@@ -13,7 +13,7 @@ export interface IBook {
 export interface IAddBook {
     title: string;
     author: string;
-    genre: string;
+    genre: 'FICTION' | 'NON_FICTION' | 'SCIENCE' | 'HISTORY' | 'BIOGRAPHY' | 'FANTASY';
     isbn: string;
     description: string;
     copies: number;
