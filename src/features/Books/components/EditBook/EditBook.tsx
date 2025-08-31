@@ -42,6 +42,8 @@ const EditBook = () => {
     },
   });
 
+  const copiesValue = form.watch("copies");
+
   const [editBook, { isLoading }] = useUpdateBookMutation();
 
   const handleSubmit = async (updatedBook: IAddBook) => {
@@ -176,7 +178,7 @@ const EditBook = () => {
                   <FormControl>
                     <Input
                       type="number"
-                      min={1}
+                      min={0}
                       {...field}
                       onChange={(e) => field.onChange(Number(e.target.value))}
                     />
@@ -193,7 +195,7 @@ const EditBook = () => {
                 <FormItem className="flex items-center space-x-2 mt-6">
                   <FormControl>
                     <Checkbox
-                      checked={field.value}
+                      checked={field.value && copiesValue > 0}
                       onCheckedChange={field.onChange}
                     />
                   </FormControl>
