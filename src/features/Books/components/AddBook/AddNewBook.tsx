@@ -17,6 +17,7 @@ import {
   Textarea,
 } from "@/components/ui";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { useAddNewBookMutation } from "../../api/apiSlice";
 import type { IAddBook } from "../../types";
 
@@ -45,8 +46,12 @@ const AddNewBook = () => {
     const res = await addNewBook(newBookData).unwrap();
 
     console.log("Inside submit funcion: ", res);
-    if (res.success) window.alert(res.message);
-    if (isError || !res.sucess) console.log("Error:", res.message);
+    if (res.success) {
+      toast.success(res.success || "Book created successfully.");
+    }
+    if (isError || !res.sucess) {
+      toast.error(`${"Server Error: while creating book."} `);
+    }
     form.reset();
   };
 

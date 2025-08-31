@@ -10,6 +10,8 @@ import {
 } from "@/components/ui";
 import type React from "react";
 import { useState } from "react";
+import { useNavigate } from "react-router";
+import { toast } from "sonner";
 import {
   useBorrowBookMutation,
   useDeleteBookMutation,
@@ -23,24 +25,35 @@ const BooksTable: React.FC<BooksTableProps> = ({ booksData }) => {
   const [bookIdToDelete, setBookIdToDelete] = useState<string | null>(null);
   const [openBorrowModal, setOpenBorrowModal] = useState(false);
   const [selectedBook, setSelectedBook] = useState<IBookwithId | null>(null);
+  const navigate = useNavigate();
 
   // delete book handlers
-  const [deleteBook] = useDeleteBookMutation();
+  const [deleteBook, { isError: deleteError }] = useDeleteBookMutation();
 
   const onDelete = (bookId: string) => {
     setBookIdToDelete(bookId);
     setOpenDialog(true);
   };
 
+  if (deleteError) {
+    toast.error(`${"Server Error: while deleting book."} `);
+  }
+
   const handleConfirmDelete = async () => {
     if (bookIdToDelete) {
       const res = await deleteBook(bookIdToDelete);
-      console.log("Inside delete book function: ", res);
+      if (res.data?.success) {
+        toast.success(res.data?.message || "Book Deleted successfully.");
+      }
     }
   };
 
   // borrow book handlers
-  const [borrowBook] = useBorrowBookMutation();
+  const [borrowBook, { isError: borrowError }] = useBorrowBookMutation();
+
+  if (borrowError) {
+    toast.error(`${"Server Error: while borrowing book."} `);
+  }
 
   const handleOpenBorrowModal = (book: IBookwithId) => {
     setSelectedBook(book);
@@ -67,7 +80,8 @@ const BooksTable: React.FC<BooksTableProps> = ({ booksData }) => {
       const res = await borrowBook(borrowBookData);
       console.log("Inside borrow book function: ", res);
       if (res.data?.success) {
-        window.alert(res.data?.message || "Book Borrowed successfully");
+        toast.success(res.data?.message || "Book Borrowed successfully");
+        navigate("/borrowed-books");
       }
     }
   };
