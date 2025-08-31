@@ -10,7 +10,7 @@ import {
 } from "@/components/ui";
 import type React from "react";
 import { useState } from "react";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { toast } from "sonner";
 import {
   useBorrowBookMutation,
@@ -86,8 +86,6 @@ const BooksTable: React.FC<BooksTableProps> = ({ booksData }) => {
     }
   };
 
-  // const onEdit = (bookId) => {};
-
   return (
     <div className="w-full overflow-x-auto">
       <Table>
@@ -128,9 +126,11 @@ const BooksTable: React.FC<BooksTableProps> = ({ booksData }) => {
                   )}
                 </TableCell>
                 <TableCell className="text-right space-x-2">
-                  <Button variant="outline" size="sm" onClick={() => {}}>
-                    Edit
-                  </Button>
+                  <Link to={`/edit-book/${book._id}`} state={book}>
+                    <Button variant="outline" size="sm">
+                      Edit
+                    </Button>
+                  </Link>
                   <Button
                     variant="destructive"
                     size="sm"

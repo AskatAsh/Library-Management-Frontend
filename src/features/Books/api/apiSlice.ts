@@ -24,6 +24,14 @@ export const booksApi = createApi({
             }),
             invalidatesTags: ['books']
         }),
+        updateBook: build.mutation({
+            query: ({ bookId, bookData }) => ({
+                url: `/books/${bookId}`,
+                method: 'PUT',
+                body: bookData
+            }),
+            invalidatesTags: ['books']
+        }),
         getBorrowdBooks: build.query({
             query: () => '/borrow',
             providesTags: ['borrow']
@@ -39,4 +47,4 @@ export const booksApi = createApi({
     })
 })
 
-export const { useGetAllBooksQuery, useAddNewBookMutation, useDeleteBookMutation, useBorrowBookMutation, useGetBorrowdBooksQuery } = booksApi;
+export const { useGetAllBooksQuery, useAddNewBookMutation, useDeleteBookMutation, useBorrowBookMutation, useGetBorrowdBooksQuery, useUpdateBookMutation } = booksApi;

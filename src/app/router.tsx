@@ -30,6 +30,13 @@ const rootChildren: RouteObject[] = [
     }),
     HydrateFallback: () => <div>Loading...</div>,
   },
+  {
+    path: "edit-book/:id",
+    lazy: async () => ({
+      Component: (await import("@/pages/EditBook")).default,
+    }),
+    HydrateFallback: () => <div>Loading...</div>,
+  },
 ];
 
 export const router = createBrowserRouter([
