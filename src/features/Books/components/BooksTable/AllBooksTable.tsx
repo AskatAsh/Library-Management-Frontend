@@ -7,7 +7,6 @@ import BooksTable from "./BooksTable";
 const AllBooksTable = () => {
   const { data, error, isLoading } = useGetAllBooksQuery(undefined);
 
-  console.log(data);
   if (isLoading) {
     return (
       <div className="text-lg text-white/70 text-center mx-auto">

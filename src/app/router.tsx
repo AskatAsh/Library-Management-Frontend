@@ -12,25 +12,21 @@ const rootChildren: RouteObject[] = [
   {
     path: "all-books",
     lazy: async () => ({
-      Component: (await import("@/features/Books")).default,
+      Component: (await import("@/pages/AllBooks")).default,
     }),
     HydrateFallback: () => <div>Loading...</div>,
   },
   {
     path: "add-new-book",
     lazy: async () => ({
-      Component: (
-        await import("@/features/Books/components/AddBook/AddNewBook")
-      ).default,
+      Component: (await import("@/pages/AddNewBook")).default,
     }),
     HydrateFallback: () => <div>Loading...</div>,
   },
   {
     path: "borrowed-books",
     lazy: async () => ({
-      Component: (
-        await import("@/features/Books/components/BorrowBook/ShowBorrowedBooks")
-      ).default,
+      Component: (await import("@/pages/BorrowedBooks")).default,
     }),
     HydrateFallback: () => <div>Loading...</div>,
   },
