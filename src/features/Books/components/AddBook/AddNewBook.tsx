@@ -16,16 +16,11 @@ import {
   SelectValue,
   Textarea,
 } from "@/components/ui";
-import React from "react";
 import { useForm } from "react-hook-form";
 import { useAddNewBookMutation } from "../../api/apiSlice";
 import type { IAddBook } from "../../types";
 
-type AddNewBookProps = {
-  onSubmit: (data: IAddBook) => void;
-};
-
-const AddNewBook: React.FC<AddNewBookProps> = () => {
+const AddNewBook = () => {
   const form = useForm<IAddBook>({
     defaultValues: {
       title: "",
@@ -44,8 +39,8 @@ const AddNewBook: React.FC<AddNewBookProps> = () => {
   const handleSubmit = async (bookData: IAddBook) => {
     const newBookData = {
       ...bookData,
-      // copies: Number(bookData.copies),
-      // available: bookData.available ?? true,
+      copies: Number(bookData.copies),
+      available: bookData.available ?? true,
     };
     const res = await addNewBook(newBookData).unwrap();
 
