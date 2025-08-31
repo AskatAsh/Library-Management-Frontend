@@ -13,7 +13,7 @@ const Header = () => {
         {/* logo */}
         <Link
           to="/"
-          className="text-lg font-semibold text-primary flex items-center"
+          className="text-lg font-semibold text-primary flex items-center gap-2"
         >
           <img className="w-10" src={logo} alt="Library management app logo" />
           <span className="text-nowrap">BOOKs</span>
