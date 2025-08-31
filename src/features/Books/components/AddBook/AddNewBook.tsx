@@ -33,9 +33,7 @@ const AddNewBook = () => {
       available: true, // default true
     },
   });
-  const [addNewBook, { data, isLoading, isError }] = useAddNewBookMutation();
-
-  console.log("Data: ", data);
+  const [addNewBook, { isLoading, isError }] = useAddNewBookMutation();
 
   const handleSubmit = async (bookData: IAddBook) => {
     const newBookData = {

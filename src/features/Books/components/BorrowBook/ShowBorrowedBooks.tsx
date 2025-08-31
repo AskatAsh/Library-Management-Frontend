@@ -49,7 +49,9 @@ const ShowBorrowedBooks = () => {
               <TableRow key={index}>
                 <TableCell>{item.book.title}</TableCell>
                 <TableCell>{item.book.isbn}</TableCell>
-                <TableCell>{item.totalQuantity}</TableCell>
+                <TableCell className="text-center sm:text-left">
+                  {item.totalQuantity}
+                </TableCell>
               </TableRow>
             ))
           ) : (

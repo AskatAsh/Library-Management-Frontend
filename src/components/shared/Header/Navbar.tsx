@@ -3,7 +3,7 @@ import { NavLink } from "react-router";
 
 const Navbar = () => {
   return (
-    <ul className="flex items-center gap-8 font-medium">
+    <ul className="hidden items-center gap-8 font-medium md:flex">
       {navlinks.map((navlink) => (
         <li key={navlink.id}>
           <NavLink
