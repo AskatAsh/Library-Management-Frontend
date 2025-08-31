@@ -25,6 +25,15 @@ const rootChildren: RouteObject[] = [
     }),
     HydrateFallback: () => <div>Loading...</div>,
   },
+  {
+    path: "borrowed-books",
+    lazy: async () => ({
+      Component: (
+        await import("@/features/Books/components/BorrowBook/ShowBorrowedBooks")
+      ).default,
+    }),
+    HydrateFallback: () => <div>Loading...</div>,
+  },
 ];
 
 export const router = createBrowserRouter([

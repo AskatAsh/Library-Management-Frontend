@@ -27,3 +27,11 @@ export interface IBookwithId extends IBook {
 export type BooksTableProps = {
     booksData: IBookwithId[]
 }
+
+export type BookSummary = {
+    totalQuantity: number;
+    book: {
+        title: string;
+        isbn: string;
+    };
+};

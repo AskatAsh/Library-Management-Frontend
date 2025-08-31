@@ -15,5 +15,10 @@ export const navlinks: TNavlinks[] = [
         id: "add-new-book",
         label: "Add New Book",
         link: "/add-new-book",
+    },
+    {
+        id: "borrowed-books",
+        label: "Borrowed Books",
+        link: "/borrowed-books",
     }
 ]
