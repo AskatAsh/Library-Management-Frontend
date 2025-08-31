@@ -10,7 +10,10 @@ import {
 } from "@/components/ui";
 import type React from "react";
 import { useState } from "react";
-import { useDeleteBookMutation } from "../../api/apiSlice";
+import {
+  useBorrowBookMutation,
+  useDeleteBookMutation,
+} from "../../api/apiSlice";
 import type { BooksTableProps, IBookwithId } from "../../types";
 import AlertDialogModal from "../AlertDialog/AlertDialogModal";
 import { BorrowBookModal } from "../BorrowBook/BorrowBookModal";
@@ -22,12 +25,11 @@ const BooksTable: React.FC<BooksTableProps> = ({ booksData }) => {
   const [selectedBook, setSelectedBook] = useState<IBookwithId | null>(null);
 
   // delete book handlers
-  const [deleteBook, { data: deleteData }] = useDeleteBookMutation();
-  console.log("delete book: ", deleteData);
+  const [deleteBook] = useDeleteBookMutation();
 
   const onDelete = (bookId: string) => {
     setBookIdToDelete(bookId);
-    setOpenDialog(true); // open dialog
+    setOpenDialog(true);
   };
 
   const handleConfirmDelete = async () => {
@@ -38,6 +40,8 @@ const BooksTable: React.FC<BooksTableProps> = ({ booksData }) => {
   };
 
   // borrow book handlers
+  const [borrowBook] = useBorrowBookMutation();
+
   const handleOpenBorrowModal = (book: IBookwithId) => {
     setSelectedBook(book);
     setOpenBorrowModal(true);
@@ -48,8 +52,24 @@ const BooksTable: React.FC<BooksTableProps> = ({ booksData }) => {
     setOpenBorrowModal(false);
   };
 
-  const handleBorrow = (bookId: string, quantity: number, dueDate: string) => {
-    console.log("borrow bood data: ", { bookId, quantity, dueDate });
+  const handleBorrow = async (
+    bookId: string,
+    quantity: number,
+    dueDate: string
+  ) => {
+    const borrowBookData = {
+      book: bookId,
+      quantity: Number(quantity),
+      dueDate,
+    };
+    console.log(borrowBookData, typeof borrowBookData.quantity);
+    if (borrowBookData) {
+      const res = await borrowBook(borrowBookData);
+      console.log("Inside borrow book function: ", res);
+      if (res.data?.success) {
+        window.alert(res.data?.message || "Book Borrowed successfully");
+      }
+    }
   };
 
   // const onEdit = (bookId) => {};
