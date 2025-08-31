@@ -11,17 +11,18 @@ import {
 import type React from "react";
 import { useState } from "react";
 import { useDeleteBookMutation } from "../../api/apiSlice";
-import type { BooksTableProps } from "../../types";
+import type { BooksTableProps, IBookwithId } from "../../types";
 import AlertDialogModal from "../AlertDialog/AlertDialogModal";
+import { BorrowBookModal } from "../BorrowBook/BorrowBookModal";
 
 const BooksTable: React.FC<BooksTableProps> = ({ booksData }) => {
   const [openDialog, setOpenDialog] = useState(false);
   const [bookIdToDelete, setBookIdToDelete] = useState<string | null>(null);
+  const [openBorrowModal, setOpenBorrowModal] = useState(false);
+  const [selectedBook, setSelectedBook] = useState<IBookwithId | null>(null);
 
-  const [
-    deleteBook,
-    { data: deleteData, isLoading: isLoadingDelete, isError },
-  ] = useDeleteBookMutation();
+  // delete book handlers
+  const [deleteBook, { data: deleteData }] = useDeleteBookMutation();
   console.log("delete book: ", deleteData);
 
   const onDelete = (bookId: string) => {
@@ -36,9 +37,22 @@ const BooksTable: React.FC<BooksTableProps> = ({ booksData }) => {
     }
   };
 
-  const onEdit = (bookId) => {};
+  // borrow book handlers
+  const handleOpenBorrowModal = (book: IBookwithId) => {
+    setSelectedBook(book);
+    setOpenBorrowModal(true);
+  };
 
-  const onBorrow = (bookId) => {};
+  const handleCloseBorrowModal = () => {
+    setSelectedBook(null);
+    setOpenBorrowModal(false);
+  };
+
+  const handleBorrow = (bookId: string, quantity: number, dueDate: string) => {
+    console.log("borrow bood data: ", { bookId, quantity, dueDate });
+  };
+
+  // const onEdit = (bookId) => {};
 
   return (
     <div className="w-full overflow-x-auto">
@@ -80,11 +94,7 @@ const BooksTable: React.FC<BooksTableProps> = ({ booksData }) => {
                   )}
                 </TableCell>
                 <TableCell className="text-right space-x-2">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => onEdit?.(book)}
-                  >
+                  <Button variant="outline" size="sm" onClick={() => {}}>
                     Edit
                   </Button>
                   <Button
@@ -98,7 +108,7 @@ const BooksTable: React.FC<BooksTableProps> = ({ booksData }) => {
                     variant="default"
                     size="sm"
                     disabled={!book.available}
-                    onClick={() => onBorrow?.(book.isbn)}
+                    onClick={() => handleOpenBorrowModal(book)}
                   >
                     Borrow
                   </Button>
@@ -126,6 +136,16 @@ const BooksTable: React.FC<BooksTableProps> = ({ booksData }) => {
         title="Delete Item"
         description="Are you sure you want to delete this item? This cannot be undone."
       />
+
+      {/* borrow book modal */}
+      {selectedBook && (
+        <BorrowBookModal
+          book={selectedBook}
+          isOpen={openBorrowModal}
+          onClose={handleCloseBorrowModal}
+          onBorrow={handleBorrow}
+        />
+      )}
     </div>
   );
 };
